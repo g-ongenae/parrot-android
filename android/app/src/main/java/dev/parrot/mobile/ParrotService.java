@@ -14,9 +14,9 @@ public final class ParrotService extends AccessibilityService {
     @Override protected void onServiceConnected() {
         if(panel!=null) return;
         speaker=new Speaker(this); manager=(WindowManager)getSystemService(WINDOW_SERVICE);
-        panel=new LinearLayout(this); panel.setOrientation(1); panel.setPadding(12,12,12,12); panel.setBackgroundColor(0xfff0fff4);
+        panel=new LinearLayout(this); panel.setOrientation(LinearLayout.VERTICAL); panel.setPadding(12,12,12,12); panel.setBackgroundColor(0xfff0fff4);
         Button bubble=new Button(this); bubble.setText("🦜"); bubble.setContentDescription("Parrot: read current screen"); panel.addView(bubble);
-        LinearLayout actions=new LinearLayout(this); actions.setOrientation(1); actions.setVisibility(View.GONE); panel.addView(actions);
+        LinearLayout actions=new LinearLayout(this); actions.setOrientation(LinearLayout.VERTICAL); actions.setVisibility(View.GONE); panel.addView(actions);
         result=new TextView(this); result.setTextColor(0xff123025); result.setTextSize(16); result.setTextIsSelectable(true);
         ScrollView scroll=new ScrollView(this); scroll.addView(result);
         bubble.setOnClickListener(v->{ if(actions.getVisibility()==View.VISIBLE) {actions.setVisibility(View.GONE); return;} captured=capture(); result.setText(captured.isEmpty()?"No readable text found. Try sharing or pasting text into Parrot.":"Captured visible screen text. Choose an action. Summaries select key sentences on device."); actions.setVisibility(View.VISIBLE); panel.post(this::keepOnScreen); });

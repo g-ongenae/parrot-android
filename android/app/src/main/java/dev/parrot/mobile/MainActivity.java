@@ -8,7 +8,7 @@ public final class MainActivity extends Activity {
     private Speaker speaker;
     @Override public void onCreate(Bundle state) {
         super.onCreate(state); speaker=new Speaker(this);
-        LinearLayout page=new LinearLayout(this); page.setOrientation(1); page.setPadding(32,48,32,24);
+        LinearLayout page=new LinearLayout(this); page.setOrientation(LinearLayout.VERTICAL); page.setPadding(32,48,32,24);
         ScrollView scroll=new ScrollView(this); scroll.addView(page); setContentView(scroll);
         TextView title=new TextView(this); title.setText("🦜 Parrot\nToo long? Do listen."); title.setTextSize(28); page.addView(title);
         TextView help=new TextView(this); help.setText("Read, summarize, or both.\n\nEnable the floating reader, open another app, then tap 🦜. Parrot reads only the text currently exposed on screen; it does not scroll the page.\n\nPrivacy: text stays on this device. Password and editable fields are skipped. Summaries select three key sentences locally; they are not AI rewrites. Some apps do not expose readable text.\n"); page.addView(help);
