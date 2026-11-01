@@ -19,7 +19,7 @@ public final class ParrotService extends AccessibilityService {
         LinearLayout actions=new LinearLayout(this); actions.setOrientation(1); actions.setVisibility(View.GONE); panel.addView(actions);
         result=new TextView(this); result.setTextColor(0xff123025); result.setTextSize(16); result.setTextIsSelectable(true);
         ScrollView scroll=new ScrollView(this); scroll.addView(result);
-        bubble.setOnClickListener(v->{ if(actions.getVisibility()==View.VISIBLE) {actions.setVisibility(View.GONE); return;} captured=capture(); result.setText(captured.isEmpty()?"No readable text found. Try sharing or pasting text into Parrot.":"Captured visible screen text. Choose an action. Summaries select key sentences on device."); actions.setVisibility(View.VISIBLE); });
+        bubble.setOnClickListener(v->{ if(actions.getVisibility()==View.VISIBLE) {actions.setVisibility(View.GONE); return;} captured=capture(); result.setText(captured.isEmpty()?"No readable text found. Try sharing or pasting text into Parrot.":"Captured visible screen text. Choose an action. Summaries select key sentences on device."); actions.setVisibility(View.VISIBLE); panel.post(this::keepOnScreen); });
         for(String action:new String[]{"Read aloud","Summarize","Summarize & read","Stop","Close"}) {
             Button b=new Button(this); b.setText(action); actions.addView(b);
             b.setOnClickListener(v->{ if(action.equals("Stop")) {speaker.stop();return;} if(action.equals("Close")) {speaker.stop();actions.setVisibility(View.GONE);captured="";result.setText("");return;} if(captured.isEmpty()) return; String output=action.equals("Read aloud")?captured:TextTools.summarize(captured); result.setText(output); if(!action.equals("Summarize")) speaker.speak(output); });
@@ -41,6 +41,13 @@ public final class ParrotService extends AccessibilityService {
             }
         });
         manager.addView(panel,params);
+    }
+    private void keepOnScreen() {
+        if(panel==null || !panel.isAttachedToWindow()) return;
+        WindowManager.LayoutParams params=(WindowManager.LayoutParams)panel.getLayoutParams();
+        params.x=Math.min(params.x, Math.max(0,getResources().getDisplayMetrics().widthPixels-panel.getWidth()));
+        params.y=Math.min(params.y, Math.max(0,getResources().getDisplayMetrics().heightPixels-panel.getHeight()-80));
+        manager.updateViewLayout(panel,params);
     }
     private String capture() {
         for(AccessibilityWindowInfo w:getWindows()) {
