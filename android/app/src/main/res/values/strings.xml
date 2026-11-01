@@ -1,0 +1,1 @@
+<resources><string name="accessibility_description">Parrot reads the visible text of your current app only when you tap its floating button. Password and editable fields are excluded. Text is processed on your device and is not saved or sent to a server. Enable this service to show the floating reader; disable it here to remove it.</string></resources>

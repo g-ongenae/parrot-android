@@ -1,0 +1,29 @@
+name: Parrot
+options:
+  bundleIdPrefix: dev.parrot
+  deploymentTarget:
+    iOS: "16.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    CODE_SIGN_STYLE: Automatic
+targets:
+  Parrot:
+    type: application
+    platform: iOS
+    sources: [Parrot, Shared]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.parrot.mobile
+        INFOPLIST_FILE: Parrot/Info.plist
+    dependencies:
+      - target: ParrotShare
+  ParrotShare:
+    type: app-extension
+    platform: iOS
+    sources: [ShareExtension, Shared]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.parrot.mobile.share
+        INFOPLIST_FILE: ShareExtension/Info.plist
+        APPLICATION_EXTENSION_API_ONLY: YES
