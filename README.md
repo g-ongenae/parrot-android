@@ -61,3 +61,7 @@ Manual checks before release:
 - Check long text, installed/offline voices, rotation, large fonts and small screens on real devices.
 
 No store submission, signing credentials or release distribution is configured. Accessibility use requires review against the current distribution-store policies before publication.
+
+## License
+
+Released under the [MIT License](LICENSE).
